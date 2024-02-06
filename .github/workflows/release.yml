@@ -21,10 +21,10 @@ jobs:
     - name: Build files
       run: |
         go build -o app
-        zip app{{ github.event.release.name }}.zip app
+        zip app${{ github.event.release.name }}.zip app
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          app{{ github.event.release.name }}.zip
+          app${{ github.event.release.name }}.zip
 
