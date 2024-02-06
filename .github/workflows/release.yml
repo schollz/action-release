@@ -22,7 +22,7 @@ jobs:
       run: |
         git clone -b ${{ github.event.release.name }} --depth 1 https://github.com/schollz/action-release action-release-${{ github.event.release.name }}
         cd action-release-${{ github.event.release.name }} && go mod tidy && go mod vendor
-        cd .. && tar -czvf action-release-${{ github.event.release.name }}_src.tar.gz action-release-${{ github.event.release.name }}
+        cd .. && tar -czvf action-release_${{ github.event.release.name }}_src.tar.gz action-release-${{ github.event.release.name }}
     - name: Build files
       run: |
         GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o action-release.exe
@@ -60,8 +60,8 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          action-release-${{ github.event.release.name }}_checksums.txt
-          action-release-${{ github.event.release.name }}_src.tar.gz
+          action-release_${{ github.event.release.name }}_checksums.txt
+          action-release_${{ github.event.release.name }}_src.tar.gz
           action-release_${{ github.event.release.name }}_Windows-64bit.zip
           action-release_${{ github.event.release.name }}_Windows-32bit.zip
           action-release_${{ github.event.release.name }}_Linux-64bit.tar.gz
