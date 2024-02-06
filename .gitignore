@@ -1,0 +1,4 @@
+.gitignore
+action-release
+action-release.zip
+bin/
