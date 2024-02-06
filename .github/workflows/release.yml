@@ -44,10 +44,23 @@ jobs:
         tar -czvf action-release_${{ github.event.release.name }}_macOS-64bit.tar.gz action-release
         GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o action-release
         tar -czvf action-release_${{ github.event.release.name }}_macOS-ARM64.tar.gz action-release
+    - name: Create checksums.txt
+      run: |
+        touch action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_src.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_Windows-64bit.zip >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_Windows-32bit.zip >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_Linux-64bit.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_Linux-32bit.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_Linux-ARM.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_Linux-ARM64.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_macOS-64bit.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
+        sha256sum action-release_${{ github.event.release.name }}_macOS-ARM64.tar.gz >> action-release_${{ github.event.release.name }}_checksums.txt
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
         files: |
+          action-release-${{ github.event.release.name }}_checksums.txt
           action-release-${{ github.event.release.name }}_src.tar.gz
           action-release_${{ github.event.release.name }}_Windows-64bit.zip
           action-release_${{ github.event.release.name }}_Windows-32bit.zip
