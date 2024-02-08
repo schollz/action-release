@@ -17,6 +17,15 @@ jobs:
     - name: Setup Go
       uses: actions/setup-go@v4
       with:
+        go-version: '1.20'
+    - name: Build files
+      run: |
+        go version
+        GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o action-release.exe
+        zip action-release_${{ github.event.release.name }}_Windows-64bit.zip action-release.exe
+    - name: Setup Go
+      uses: actions/setup-go@v4
+      with:
         go-version: '1.22'
     - name: Prepare source tarball
       run: |
@@ -25,6 +34,7 @@ jobs:
         cd .. && tar -czvf action-release_${{ github.event.release.name }}_src.tar.gz action-release-${{ github.event.release.name }}
     - name: Build files
       run: |
+        go version
         GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o action-release.exe
         zip action-release_${{ github.event.release.name }}_Windows-64bit.zip action-release.exe
         GOOS=windows GOARCH=386 go build -ldflags="-s -w" -o action-release.exe
